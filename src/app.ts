@@ -2,6 +2,7 @@ import http from 'http';
 import express, { Application } from 'express';
 import { Server } from 'socket.io';
 import { UserRoutes } from './routes/user.routes';
+import { connect } from './infra/database';
 
 
 
@@ -23,9 +24,18 @@ class App {
 
 
     listen(){
-        this.http.listen(3333, () => console.log('Server is running'))
+        this.http.listen(3333, async () => {
+            try {
+                await connect()
+                console.log('dataBase connected!')
+            } catch (error) {
+                console.log(error, "dataBase NOT connected!")
+            }
+        })
     }
 
+
+    
     listenSocket(){
         this.io.on('connection', (userSocket) => {
             console.log('a user connected');
