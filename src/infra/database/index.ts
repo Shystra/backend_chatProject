@@ -1,9 +1,22 @@
-import mongoose from "mongoose"
+// mongooseConnection.ts
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-export async function connect () {
+dotenv.config(); // Carrega as variáveis de ambiente do arquivo .env
+
+// console.log('Valor de MONGODB_URL:', process.env.MONGODB_URL);
+
+export async function connect() {
     try {
-        await mongoose.connect('mongodb+srv://shystra:lfGOAAXCNaYggCzG@cluster0.d57giuu.mongodb.net/chatHero');
+        const url = process.env.MONGODB_URL as string;
+
+        if (!url) {
+            throw new Error('A string de conexão do MongoDB não está definida no arquivo .env');
+        }
+
+        await mongoose.connect(url);
+        console.log('Conectado ao banco de dados');
     } catch (error) {
-        console.log(error, 'Erro ao conectar ao banco de dados')
+        console.error(error, 'Erro ao conectar ao banco de dados');
     }
 }

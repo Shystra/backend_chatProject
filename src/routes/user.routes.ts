@@ -12,7 +12,7 @@ private userController = new UserController
     
 
     getRoutes(){
-        this.router.post('/', this.userController.store);
+        this.router.post('/', this.userController.store.bind(this.userController));
     }
 }
 

@@ -1,18 +1,22 @@
 import { NextFunction, Request, Response } from "express";
+import { Users } from "../useCases/user.useCase";
 
 class UserController {
-    store ( request: Request, response: Response, next: NextFunction) {
-        const {name, email, password} = request.body;
-        
+    private usersUserCase: Users;
+    constructor(){
+        this.usersUserCase = new Users();
+    }
 
+    async store(request: Request, response: Response, next: NextFunction) {
+        const {name, email, password} = request.body;
 
         try {
-            return response.status(201).json({ ok: true })
-        
+            const result = await this.usersUserCase.create({ name, email, password });
+            return response.status(201).json(result);
         } catch (error) {
-            next(error)
+            next(error); // Envie o erro diretamente para o middleware de erro global
         }
     }
 }
 
-export { UserController }
+export { UserController };

@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "dotenv": "^16.3.1",
     "tsx": "^4.4.0",
     "typescript": "^5.3.2"
   }
